@@ -1,15 +1,37 @@
-// Mobile navigation menu
+const nav = document.getElementById("navLinks");
+const menuButton = document.querySelector(".menu-btn");
+const form = document.getElementById("contactForm");
+const formMessage = document.getElementById("formMessage");
+
 function toggleMenu() {
-    const nav = document.getElementById("navLinks");
+    if (!nav || !menuButton) return;
+
     nav.classList.toggle("show");
+    const isOpen = nav.classList.contains("show");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
 }
 
-// Contact form demonstration
-document.getElementById("contactForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+if (menuButton) {
+    menuButton.addEventListener("click", toggleMenu);
 
-    document.getElementById("formMessage").textContent =
-        "Thank you! Your message has been received in this demo.";
+    nav?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            nav.classList.remove("show");
+            menuButton.setAttribute("aria-expanded", "false");
+        });
+    });
+}
 
-    this.reset();
-});
+const yearNode = document.getElementById("year");
+if (yearNode) {
+    yearNode.textContent = new Date().getFullYear();
+}
+
+if (form && formMessage) {
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        formMessage.textContent = "Thank you! Your message has been received in this demo.";
+        form.reset();
+    });
+}
